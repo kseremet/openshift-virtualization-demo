@@ -2,8 +2,8 @@ kind: HyperConverged
 apiVersion: hco.kubevirt.io/v1beta1
 metadata:
   annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-    deployOVS: 'false'
+    deployOVS: "false"
+    argocd.argoproj.io/sync-wave: "3"
   name: kubevirt-hyperconverged
   namespace: openshift-cnv
 spec: {}

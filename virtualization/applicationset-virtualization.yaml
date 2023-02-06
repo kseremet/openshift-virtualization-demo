@@ -11,7 +11,7 @@ spec:
           argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: '{{name}}-virtualization'
+      name: "{{nameNormalized}}-virtualization"
     spec:
       project: default
       source:
@@ -19,7 +19,7 @@ spec:
         targetRevision: HEAD
         path: virtualization/manifests
       destination:
-        server: '{{server}}'
+        server: "{{server}}"
         namespace: openshift-cnv
       syncPolicy:
         syncOptions:

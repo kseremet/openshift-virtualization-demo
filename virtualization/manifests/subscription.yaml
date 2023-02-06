@@ -1,17 +1,10 @@
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: openshift-cnv
-  namespace: openshift-cnv
-spec:
-  targetNamespaces:
-    - openshift-cnv
----
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: kubevirt-hyperconverged
   namespace: openshift-cnv
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   channel: "stable"
   installPlanApproval: Automatic

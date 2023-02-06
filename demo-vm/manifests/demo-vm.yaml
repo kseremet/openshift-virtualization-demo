@@ -3,7 +3,7 @@ kind: VirtualMachine
 metadata:
   name: demo-vm
 spec:
-  running: true
+  running: false
   template:
     spec:
       domain:

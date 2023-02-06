@@ -4,7 +4,6 @@ metadata:
   name: demo-vm
 spec:
   running: false
-  terminationGracePeriodSeconds: 180
   dataVolumeTemplates:
   - metadata:
       name: demo-vm-ds-fedora
@@ -17,6 +16,7 @@ spec:
         resources: {}
   template:
     spec:
+      terminationGracePeriodSeconds: 180
       domain:
         devices:
           rng: {}

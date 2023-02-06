@@ -6,27 +6,32 @@ spec:
   running: true
   template:
     spec:
+			running: true
+      terminationGracePeriodSeconds: 180
       domain:
         devices:
-          disks:
-          - disk:
-              bus: virtio
-            name: containerdisk
-          - disk:
-              bus: virtio
-            name: cloudinitdisk
           rng: {}
         resources:
           requests:
             memory: 1024M
-      terminationGracePeriodSeconds: 0
+		  dataVolumeTemplates:
+		  - metadata:
+		      name: demo-vm-ds-fedora
+		    spec:
+		      sourceRef:
+		        kind: DataSource
+		        name: fedora
+		        namespace: openshift-virtualization-os-images
+		      storage:
+		        resources: {}
       volumes:
-      - containerDisk:
-          image: quay.io/containerdisks/fedora:latest
-        name: containerdisk
-      - cloudInitConfigDrive:
+      - dataVolume:
+          name: demo-vm-ds-fedora
+        name: demo-vm-ds-fedora
+      - cloudInitNoCloud:
           userData: |-
             #cloud-config
+						user: fedora
             password: fedora
             chpasswd: { expire: False }
         name: cloudinitdisk

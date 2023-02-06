@@ -5,16 +5,16 @@ metadata:
 spec:
   running: true
   terminationGracePeriodSeconds: 180
-	dataVolumeTemplates:
-	- metadata:
-	    name: demo-vm-ds-fedora
-	  spec:
-	    sourceRef:
-	      kind: DataSource
-	      name: fedora
-	      namespace: openshift-virtualization-os-images
-	    storage:
-	      resources: {}
+  dataVolumeTemplates:
+  - metadata:
+      name: demo-vm-ds-fedora
+    spec:
+      sourceRef:
+        kind: DataSource
+        name: fedora
+        namespace: openshift-virtualization-os-images
+      storage:
+        resources: {}
   template:
     spec:
       domain:
@@ -30,7 +30,7 @@ spec:
       - cloudInitNoCloud:
           userData: |-
             #cloud-config
-						user: fedora
+            user: fedora
             password: fedora
             chpasswd: { expire: False }
         name: cloudinitdisk

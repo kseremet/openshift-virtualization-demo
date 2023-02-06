@@ -11,7 +11,7 @@ spec:
           argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: '{{name}}-demo-vm'
+      name: "{{name}}-demo-vm"
     spec:
       project: default
       source:
@@ -19,7 +19,7 @@ spec:
         targetRevision: HEAD
         path: demo-vm/manifests
       destination:
-        server: '{{server}}'
+        server: "{{server}}"
         namespace: demo-vm
       syncPolicy:
         syncOptions:

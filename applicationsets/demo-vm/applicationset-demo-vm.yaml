@@ -5,10 +5,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   generators:
-  - clusters:
-      selector:
-        matchLabels:
-          argocd.argoproj.io/secret-type: cluster
+  - clusters: {}
   template:
     metadata:
       name: "{{name}}-demo-vm"
@@ -17,7 +14,7 @@ spec:
       source:
         repoURL: https://github.com/0xFelix/gitops-demo.git
         targetRevision: HEAD
-        path: demo-vm/manifests
+        path: applicationsets/demo-vm/manifests
       destination:
         server: "{{server}}"
         namespace: demo-vm

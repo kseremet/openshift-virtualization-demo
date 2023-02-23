@@ -237,7 +237,23 @@ ACM can dynamically select a sub set of clusters from the
 example allows to schedule `VirtualMachines` on clusters with the most
 resources available at the time of the placement decision.
 
-For more on this topic see [Using the Open Cluster Management Placement for Multicluster Scheduling](https://cloud.redhat.com/blog/using-the-open-cluster-management-placement-for-multicluster-scheduling).
+For more on this topic see
+[Using the Open Cluster Management Placement for Multicluster Scheduling](https://cloud.redhat.com/blog/using-the-open-cluster-management-placement-for-multicluster-scheduling).
+
+### Alternative way of deploying OpenShift Virtualization to managed clusters
+
+An [ACM add-on](https://open-cluster-management.io/developer-guides/addon/)
+that deploys OpenShift Virtualization to managed clusters was implemented
+for evaluation purposes. The add-on is fully functional and can  eploy
+OpenShift Virtualization to all managed clusters that have a specific label set.
+
+Allthough the add-on the serves the purpose of deploying OpenShift
+Virtualization it was found to be unnecessary complex when OpenShift GitOps
+is available too, because it is only deploying a small set of static
+manifests which can be deployed by GitOps too. In contrast to its use stands
+the additional maintenance burden and resource usage of another container
+running on the cluster. Therefore, it was decided to not follow this path
+further.
 
 ### Future use cases
 

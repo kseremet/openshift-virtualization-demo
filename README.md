@@ -255,6 +255,20 @@ the additional maintenance burden and resource usage of another container
 running on the cluster. Therefore, it was decided to not follow this path
 further.
 
+### Integration with Ansible
+
+ACM can integrate with Ansible to trigger Playbook runs after certain events.
+To make use of `VirtualMachines` in Ansible a dynamic inventory is needed,
+which makes the `VirtualMachines` available and accessible to Ansible.
+
+There is already a collection of [KubeVirt modules](https://github.com/kubevirt/kubevirt-ansible/)
+for Ansible, this collection however is deprecated and no longer working.
+
+For evaluation purposes [a fork](https://github.com/0xFelix/kubernetes.kubevirt)
+was created. This fork provides limited functionaly but shows
+that this type of integration is still possible. A demo of this Ansible
+collection can be found [here](https://github.com/0xFelix/kubevirt-inventory-demo).
+
 ### Future use cases
 
 A future use case is to pre-configure a `VirtualMachine` on a cluster

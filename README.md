@@ -103,13 +103,13 @@ available to GitOps.
 1. Login as cluster administrator on the UI of the hub cluster
 2. Open the `Administrator` view if it is not already selected
 3. In the menu click on `Networking` and open `Routes`
-4. In the `Projects` dropdown select `openshift-gitops`
+4. In the `Projects` drop down select `openshift-gitops`
    (enable `Show default projects` if not visible)
 5. There will be a `Route` called `openshift-gitops-server`, the location of
    this `Route` is the URL to the GitOps UI
 6. You can log in to the GitOps UI with your OpenShift credentials
 
-Alternatively you can use the commandline to get the URL to the GitOps UI with
+Alternatively you can use the command line to get the URL to the GitOps UI with
 the following command:
 
 ```shell
@@ -123,9 +123,9 @@ integration between ACM and GitOps was added.
 
 Follow these steps to make the managed clusters available to GitOps:
 
-1. Copy the login command for the commandline by clicking on your username on
+1. Copy the login command for the command line by clicking on your username on
    the top right and then click on `Copy login command`
-2. Run the copied command in your commandline
+2. Run the copied command in your command line
 3. Create a `ManagedClusterSetBinding` in the `openshift-gitops` namespace
    to make the `ManagedClusterSet` available in this namespace
     - See file
@@ -200,7 +200,7 @@ To force a specific version from the channel do the following:
 2. Extract the available
    [`CSV`](https://olm.operatorframework.io/docs/concepts/crds/clusterserviceversion/)
    versions from the Operator registry
-    1. Login to the commandline of the managed cluster
+    1. Login to the command line of the managed cluster
     2. Run
        `oc port-forward service/redhat-operators -n openshift-marketplace 50051:50051`
     3. In a separate terminal run
@@ -293,7 +293,7 @@ There is already a collection of
 for Ansible, this collection however is deprecated and no longer working.
 
 For evaluation purposes [a fork](https://github.com/0xFelix/kubernetes.kubevirt)
-was created. This fork provides limited functionaly but shows
+was created. This fork provides limited functionality but shows
 that this type of integration is still possible. A demo of this Ansible
 collection can be found
 [here](https://github.com/0xFelix/kubevirt-inventory-demo).

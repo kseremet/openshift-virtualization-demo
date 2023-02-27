@@ -24,7 +24,8 @@ Follow these steps to set up a working demonstration environment.
 The hub cluster is the cluster on which ACM and GitOps are running on. It
 acts as an inventory and carries out all management actions. It is not
 running any actual workloads, these run on managed clusters. For more
-information see [here](https://open-cluster-management.io/concepts/architecture/#overview).
+information see
+[here](https://open-cluster-management.io/concepts/architecture/#overview).
 
 ### Installing ACM on the hub cluster
 
@@ -103,9 +104,17 @@ available to GitOps.
 2. Open the `Administrator` view if it is not already selected
 3. In the menu click on `Networking` and open `Routes`
 4. In the `Projects` dropdown select `openshift-gitops`
+   (enable `Show default projects` if not visible)
 5. There will be a `Route` called `openshift-gitops-server`, the location of
    this `Route` is the URL to the GitOps UI
 6. You can log in to the GitOps UI with your OpenShift credentials
+
+Alternatively you can use the commandline to get the URL to the GitOps UI with
+the following command:
+
+```shell
+oc get route -n openshift-gitops openshift-gitops-server -o jsonpath='{.spec.host}'
+```
 
 ### Making a set of managed clusters available to OpenShift GitOps
 
@@ -119,8 +128,9 @@ Follow these steps to make the managed clusters available to GitOps:
 2. Run the copied command in your commandline
 3. Create a `ManagedClusterSetBinding` in the `openshift-gitops` namespace
    to make the `ManagedClusterSet` available in this namespace
-   - See file [managedclustersetbinding.yaml](./acm-gitops-integration/managedclustersetbinding.yaml)
-   - Run `oc create -f acm-gitops-integration/managedclustersetbinding.yaml`
+    - See file
+      [managedclustersetbinding.yaml](./acm-gitops-integration/managedclustersetbinding.yaml)
+    - Run `oc create -f acm-gitops-integration/managedclustersetbinding.yaml`
 4. Create a `Placement` to let ACM decide which clusters should be made
    available to GitOps
     - See file [placement.yaml](./acm-gitops-integration/placement.yaml)
@@ -128,13 +138,13 @@ Follow these steps to make the managed clusters available to GitOps:
     - For the sake of simplicity this will select the whole
       `ManagedClusterSet`, but advanced use cases are possible
 5. Create a `GitOpsCluster` to finally make the selected clusters available to
-   GitOps
-   - See file [gitopscluster.yaml](./acm-gitops-integration/gitopscluster.yaml)
-   - Run `oc create -f acm-gitops-integration/gitopscluster.yaml`
+   GitOps on the hub cluster
+    - See file [gitopscluster.yaml](./acm-gitops-integration/gitopscluster.yaml)
+    - Run `oc create -f acm-gitops-integration/gitopscluster.yaml`
 
 ### Short introduction to ApplicationSet
 
-The ArgoCD `ApplicationSet` is a CRD building on ArgoCD `Applications`
+The ArgoCD `ApplicationSet` is a CRD building on ArgoCD `Applications`,
 targeted to deploy and manage `Applications` across multiple clusters while
 using the same manifest or declaration. It is possible to deploy multiple
 `ApplicationSets` which are contained in one monorepo. By using generators
@@ -145,7 +155,8 @@ In this demo we are going to use `ApplicationSets` to deploy OpenShift
 Virtualization and `VirtualMachines` to multiple clusters while using
 the same declaration of resources for all clusters.
 
-For more information on `ApplicationSets` see the [documentation](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset).
+For more information on `ApplicationSets` see the
+[documentation](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset).
 
 ### Deploying OpenShift Virtualization to one or more managed clusters
 
@@ -185,14 +196,18 @@ automatically.
 To force a specific version from the channel do the following:
 
 1. Make sure that [`grpcurl`](https://github.com/fullstorydev/grpcurl) and
-[`jq`](https://stedolan.github.io/jq/) are available on your machine
-2. Extract the available [`CSV`](https://olm.operatorframework.io/docs/concepts/crds/clusterserviceversion/) versions from the Operator registry
-   1. Login to the commandline of the managed cluster
-   2. Run `oc port-forward service/redhat-operators -n openshift-marketplace 50051:50051`
-   3. In a separate terminal run `grpcurl -plaintext localhost:50051 api.Registry/ListBundles | jq 'select(.csvName | match ("kubevirt-hyperconverged-operator")) | .version'`
+   [`jq`](https://stedolan.github.io/jq/) are available on your machine
+2. Extract the available
+   [`CSV`](https://olm.operatorframework.io/docs/concepts/crds/clusterserviceversion/)
+   versions from the Operator registry
+    1. Login to the commandline of the managed cluster
+    2. Run
+       `oc port-forward service/redhat-operators -n openshift-marketplace 50051:50051`
+    3. In a separate terminal run
+       `grpcurl -plaintext localhost:50051 api.Registry/ListBundles | jq 'select(.csvName | match ("kubevirt-hyperconverged-operator")) | .version'`
 3. Set the following fields in the `Operator` spec
-   - `installPlanApproval`: `Manual`
-   - `startingCSV`: Your desired and available CSV version
+    - `installPlanApproval`: `Manual`
+    - `startingCSV`: Your desired and available CSV version
 
 This technique can for example be used to control the upgrade
 process of OpenShift Virtualization in a declarative way.
@@ -216,8 +231,10 @@ To see what is actually deployed have a look into the following directory:
 ### How to start or stop a `VirtualMachine`
 
 To start of stop a `VirtualMachine` you need to edit the `spec.running`
-field of a `VirtualMachine` and set it to the corresponding value (`false`
-or `true`). If the `VirtualMachine` has an appropriate termination grace
+field of a `VirtualMachine` and set it to a corresponding value (`false`
+or `true`).
+
+If the `VirtualMachine` has an appropriate termination grace
 period (`spec.template.spec.terminationGracePeriodSeconds`) setting this
 value to `false` will gracefully shut down the `VirtualMachine`. When
 setting the timeout grace period to 0 seconds the `VirtualMachine` is
@@ -231,7 +248,7 @@ need to fork this repository and adjust the `repoURL` in the provided
 your hub cluster.
 
 To start or stop a `VirtualMachine` update the manifest and commit and push
-it to your repository. In the ArgoCD UI select the `Application` of the
+to your repository. In the ArgoCD UI select the `Application` of the
 `VirtualMachine` and click `Refresh` to apply the change immediately.
 Otherwise, it will take some time until ArgoCD scans the repository and
 picks up the change.
@@ -256,13 +273,14 @@ that deploys OpenShift Virtualization to managed clusters was implemented
 for evaluation purposes. The add-on is fully functional and can deploy
 OpenShift Virtualization to all managed clusters that have a specific label set.
 
-Allthough the add-on the serves the purpose of deploying OpenShift
-Virtualization it was found to be unnecessary complex when OpenShift GitOps
-is available too, because it is only deploying a small set of static
-manifests which can be deployed by GitOps too. In contrast to its use stands
-the additional maintenance burden and resource usage of another container
-running on the cluster. Therefore, it was decided to not follow this path
-further.
+Although the add-on the serves the purpose of deploying OpenShift
+Virtualization, it was found to be unnecessary complex when OpenShift GitOps
+is available too. The add-on is only deploying a small set of static
+manifests which can be deployed by GitOps too.
+
+In contrast to its use stand the additional maintenance burden and resource
+usage of another container running on the cluster. Therefore, it was decided
+to not follow this path any further.
 
 ### Integration with Ansible
 
@@ -270,13 +288,15 @@ ACM can be integrated with Ansible to trigger Playbook runs after certain
 events. To make use of `VirtualMachines` in Ansible a dynamic inventory is
 needed, which makes the `VirtualMachines` available and accessible to Ansible.
 
-There is already a collection of [KubeVirt modules](https://github.com/kubevirt/kubevirt-ansible/)
+There is already a collection of
+[KubeVirt modules](https://github.com/kubevirt/kubevirt-ansible/)
 for Ansible, this collection however is deprecated and no longer working.
 
 For evaluation purposes [a fork](https://github.com/0xFelix/kubernetes.kubevirt)
 was created. This fork provides limited functionaly but shows
 that this type of integration is still possible. A demo of this Ansible
-collection can be found [here](https://github.com/0xFelix/kubevirt-inventory-demo).
+collection can be found
+[here](https://github.com/0xFelix/kubevirt-inventory-demo).
 
 ### Future use cases
 
@@ -287,8 +307,9 @@ other clusters to allow deployment of replicas of a pre-configured
 `VirtualMachine` across multiple clusters.
 
 A possible blob format for this kind of export/import feature could be
-[ContainerDisks](https://kubevirt.io/user-guide/virtual_machines/disks_and_volumes/#containerdisk)
+[ContainerDisks](https://kubevirt.io/user-guide/virtual_machines/disks_and_volumes/#containerdisk),
 which are already supported by OpenShift Virtualization.
 
 To show this is already possible with the current `ContainerDisk`
-implementation a Proof-Of-Concept was created. The PoC can be found [here](https://github.com/0xFelix/kubevirt/tree/virtctl-exportcd).
+implementation a Proof-Of-Concept was created. The PoC can be found
+[here](https://github.com/0xFelix/kubevirt/tree/virtctl-exportcd).

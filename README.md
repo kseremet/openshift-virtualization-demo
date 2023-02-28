@@ -205,7 +205,7 @@ To force a specific version from the channel do the following:
        `oc port-forward service/redhat-operators -n openshift-marketplace 50051:50051`
     3. In a separate terminal run
        `grpcurl -plaintext localhost:50051 api.Registry/ListBundles | jq 'select(.csvName | match ("kubevirt-hyperconverged-operator")) | .version'`
-3. Set the following fields in the `Operator` spec
+3. Set the following fields in the `Subscription` spec
     - `installPlanApproval`: `Manual`
     - `startingCSV`: Your desired and available CSV version
 

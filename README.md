@@ -230,7 +230,7 @@ To see what is actually deployed have a look into the following directory:
 
 ### How to start or stop a `VirtualMachine`
 
-To start of stop a `VirtualMachine` you need to edit the `spec.running`
+To start or stop a `VirtualMachine` you need to edit the `spec.running`
 field of a `VirtualMachine` and set it to a corresponding value (`false`
 or `true`).
 
@@ -258,7 +258,7 @@ picks up the change.
 For the sake of simplicity the `Placement` created in this demo selects the
 whole `ManagedClusterSet`, but more advanced use cases are possible.
 
-ACM can dynamically select a sub set of clusters from the
+ACM can dynamically select a subset of clusters from the
 `ManagedClusterSet` while following a defined set of criteria. This for
 example allows to schedule `VirtualMachines` on clusters with the most
 resources available at the time of the placement decision.

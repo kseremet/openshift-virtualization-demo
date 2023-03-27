@@ -3,7 +3,7 @@ kind: VirtualMachine
 metadata:
   name: demo-vm
 spec:
-  running: true
+  running: false
   dataVolumeTemplates:
   - metadata:
       name: demo-vm-ds-fedora
@@ -20,9 +20,8 @@ spec:
       domain:
         devices:
           rng: {}
-        resources:
-          requests:
-            memory: 1024M
+        memory:
+          guest: 1024M
       volumes:
       - dataVolume:
           name: demo-vm-ds-fedora

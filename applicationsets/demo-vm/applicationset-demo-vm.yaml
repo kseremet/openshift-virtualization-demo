@@ -12,13 +12,16 @@ spec:
           argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: "{{name}}-demo-vm"
+      name: "{{nameNormalized}}-demo-vm"
     spec:
       project: default
       source:
         repoURL: https://github.com/0xFelix/gitops-demo.git
         targetRevision: HEAD
-        path: applicationsets/demo-vm/manifests
+        path: "applicationsets/demo-vm/kustomize/{{metadata.labels.env}}"
+        kustomize:
+          commonAnnotations:
+            managed-cluster: "{{nameNormalized}}"
       destination:
         server: "{{server}}"
         namespace: demo-vm

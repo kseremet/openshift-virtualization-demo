@@ -6,12 +6,3 @@ metadata:
 spec:
   clusterSets:
     - managed
-  predicates:
-    - requiredClusterSelector:
-        labelSelector:
-          matchExpressions:
-            - key: env
-              operator: In
-              values:
-                - dev
-                - prod

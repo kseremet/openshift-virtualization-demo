@@ -520,6 +520,8 @@ In contrast to its use stand the additional maintenance burden and resource
 usage of another container running on the cluster. Therefore, it was decided
 to not follow this path any further.
 
+The add-on can be found [here](https://github.com/0xFelix/kubevirt-addon-manager).
+
 ## Integration with Ansible AWX or Ansible Automation Controller
 
 OCM/ACM can be integrated with Ansible AWX or Ansible Automation Controller to

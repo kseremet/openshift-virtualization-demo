@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cdi
+  namespace: argocd
+spec:
+  generators:
+  - clusters: {}
+  template:
+    metadata:
+      name: "{{nameNormalized}}-cdi"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/0xFelix/gitops-demo.git
+        targetRevision: HEAD
+        path: applicationsets/cdi/manifests
+      destination:
+        server: "{{server}}"
+        namespace: cdi
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true

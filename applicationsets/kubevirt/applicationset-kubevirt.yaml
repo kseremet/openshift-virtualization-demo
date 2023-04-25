@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kubevirt
+  namespace: argocd
+spec:
+  generators:
+  # Only select external clusters, excludes local cluster
+  - clusters: {}
+  template:
+    metadata:
+      name: "{{nameNormalized}}-kubevirt"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/0xFelix/gitops-demo.git
+        targetRevision: HEAD
+        path: applicationsets/kubevirt/manifests
+      destination:
+        server: "{{server}}"
+        namespace: kubevirt
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true

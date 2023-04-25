@@ -239,7 +239,7 @@ To make a set of managed clusters available to ArgoCD or OpenShift GitOps, a
 tight integration between OCM and ArgoCD or ACM and GitOps exists. The
 integration is controlled with the `GitOpsCluster` CRD.
 
-Follow these steps to make the managed clusters available to ArgCD or GitOps:
+Follow these steps to make the managed clusters available to ArgoCD or GitOps:
 
 1. Make sure you are logged in to your cluster on the CLI
 2. Run the copied command in your terminal

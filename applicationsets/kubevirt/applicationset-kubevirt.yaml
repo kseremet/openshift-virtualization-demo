@@ -6,7 +6,10 @@ metadata:
 spec:
   generators:
   # Only select external clusters, excludes local cluster
-  - clusters: {}
+  - clusters:
+      selector:
+        matchLabels:
+          argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
       name: "{{nameNormalized}}-kubevirt"

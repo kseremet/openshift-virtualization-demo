@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: demo-vm
-  namespace: openshift-gitops
 spec:
   generators:
   # Only select external clusters, excludes local cluster

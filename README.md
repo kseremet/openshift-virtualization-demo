@@ -247,12 +247,12 @@ Follow these steps to make the managed clusters available to ArgoCD or GitOps:
    namespace to make the `ManagedClusterSet` available in this namespace
     - See file [managedclustersetbinding.yaml](acm-gitops-integration/managedclustersetbinding.yaml)
     - On Kubernetes run `kubectl create -n argocd -f acm-gitops-integration/managedclustersetbinding.yaml`
-    - On OpenShift run `oc create -f acm-gitops-integration/managedclustersetbinding.yaml`
+    - On OpenShift run `oc create -n openshift-gitops -f acm-gitops-integration/managedclustersetbinding.yaml`
 4. Create a `Placement` to let OCM/ACM decide which clusters should be made
    available to GitOps
     - See file [placement.yaml](acm-gitops-integration/placement.yaml)
     - On Kubernetes run `kubectl create -n argocd -f acm-gitops-integration/placement.yaml`
-    - On OpenShift run `oc create -f acm-gitops-integration/placement.yaml`
+    - On OpenShift run `oc create -n openshift-gitops -f acm-gitops-integration/placement.yaml`
     - For the sake of simplicity this will select the whole`ManagedClusterSet`,
       but advanced use cases are possible
 5. Create a `GitOpsCluster` to finally make the selected clusters available to
@@ -400,12 +400,18 @@ kubectl create -n argocd -f applicationsets/demo-vm/applicationset-demo-vm.yaml
 On OpenShift run the following command:
 
 ```shell
-oc create -f applicationsets/demo-vm/applicationset-demo-vm.yaml
+oc create -n openshift-gitops -f applicationsets/demo-vm/applicationset-demo-vm.yaml
 ```
 
 This will create an `Application` for each managed cluster that deploys a
 simple `VirtualMachine` on each cluster. It uses the Fedora `DataSource`
-available on the cluster by default to boot a Fedora cloud image.
+available on the OpenShift cluster by default to boot a Fedora cloud image.
+
+On Kubernetes please create the DataSource with the following command:
+
+```shell
+kubectl create -f acm-gitops-integration/k8s-datasource.yaml
+```
 
 ### Health state of the `Application`
 

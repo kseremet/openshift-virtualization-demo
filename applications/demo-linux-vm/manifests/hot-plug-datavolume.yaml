@@ -1,0 +1,21 @@
+---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: fedora-demo-vm-hot-plug-disk
+  namespace: koray
+  ownerReferences:
+  - apiVersion: kubevirt.io/v1
+    blockOwnerDeletion: false
+    kind: VirtualMachine
+    name: fedora-demo-vm
+    uid: f298a420-5184-4ab0-8e81-133e9deebc49
+spec:
+  storage:
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: ocs-storagecluster-ceph-rbd-replica2
+  preallocation: false
+  source:
+    blank: {}

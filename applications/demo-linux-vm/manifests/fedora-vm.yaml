@@ -52,8 +52,6 @@ spec:
               masquerade: {}
               model: virtio
               name: default
-            - bridge: {}
-              name: nic-hotplug-demo
           networkInterfaceMultiqueue: true
           rng: {}
         features:
@@ -71,9 +69,6 @@ spec:
       networks:
         - name: default
           pod: {}
-        - multus:
-            networkName: koray/demo-l2-network
-          name: nic-hotplug-demo
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:
@@ -87,3 +82,4 @@ spec:
               chpasswd:
                 expire: false
           name: cloudinitdisk
+

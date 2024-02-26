@@ -47,6 +47,9 @@ spec:
             - disk:
                 bus: virtio
               name: cloudinitdisk
+            - disk:
+                bus: scsi
+              name: disk-hotplug-demo
           interfaces:
             - macAddress: '02:a4:1a:00:00:19'
               masquerade: {}
@@ -82,4 +85,8 @@ spec:
               chpasswd:
                 expire: false
           name: cloudinitdisk
+        - dataVolume:
+            hotpluggable: true
+            name: fedora-demo-vm-hot-plug-disk
+          name: disk-hotplug-demo
 

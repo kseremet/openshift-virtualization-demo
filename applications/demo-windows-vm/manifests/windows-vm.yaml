@@ -20,7 +20,7 @@ spec:
             requests:
               storage: 32Gi
           storageClassName: ocs-storagecluster-ceph-rbd-replica2
-  running: false
+  running: true
   template:
     metadata:
       annotations:

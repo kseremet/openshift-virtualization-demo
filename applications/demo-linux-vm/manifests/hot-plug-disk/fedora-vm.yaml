@@ -5,6 +5,8 @@ metadata:
   namespace: koray
   labels:
     app: fedora-demo-vm
+  annotations:
+    argocd.argoproj.io/sync-wave: "99"
 spec:
   dataVolumeTemplates:
     - apiVersion: cdi.kubevirt.io/v1beta1

@@ -11,7 +11,7 @@ metadata:
     blockOwnerDeletion: false
     kind: VirtualMachine
     name: fedora-demo-vm
-    uid: 76f51e2d-3830-4607-a3e9-9cfc01554b6e
+    uid: 9be84bc9-08d6-4bf9-a210-86a973811f6f
 spec:
   storage:
     resources:

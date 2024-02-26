@@ -53,6 +53,12 @@ spec:
               disk:
                 bus: virtio
               name: rootdisk
+            - cdrom:
+                bus: sata
+              name: windows-drivers-disk
+            - cdrom:
+                bus: sata
+              name: sysprep
           inputs:
             - bus: usb
               name: tablet
@@ -94,3 +100,10 @@ spec:
         - dataVolume:
             name: windows-demo-vm
           name: rootdisk
+        - containerDisk:
+            image: 'registry.redhat.io/container-native-virtualization/virtio-win-rhel9@sha256:0c536c7aba76eb9c1e75a8f2dc2bbfa017e90314d55b242599ea41f42ba4434f'
+          name: windows-drivers-disk
+        - name: sysprep
+          sysprep:
+            configMap:
+              name: sysprep-unattend.xml

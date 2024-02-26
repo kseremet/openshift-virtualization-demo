@@ -2,6 +2,7 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: fedora-demo-vm
+  uid: 76f51e2d-3830-4607-a3e9-9cfc01554b6e
   namespace: koray
   labels:
     app: fedora-demo-vm

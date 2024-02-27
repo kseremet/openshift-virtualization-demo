@@ -99,9 +99,7 @@ spec:
               chpasswd:
                 expire: false
               packages:
-                - qemu-guest-agent
                 - nginx
               runcmd:
-                - systemctl enable --now qemu-guest-agent
                 - systemctl enable --now nginx
           name: cloudinitdisk

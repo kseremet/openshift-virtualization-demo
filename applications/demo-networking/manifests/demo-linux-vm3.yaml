@@ -1,10 +1,10 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: fedora-demo-vm2
+  name: fedora-demo-vm3
   namespace: networking-demo-project2
   labels:
-    app: fedora-demo-vm2
+    app: fedora-demo-vm3
   annotations:
     argocd.argoproj.io/sync-wave: "90"
 spec:
@@ -12,7 +12,7 @@ spec:
     - apiVersion: cdi.kubevirt.io/v1beta1
       kind: DataVolume
       metadata:
-        name: fedora-demo-vm2
+        name: fedora-demo-vm3
       spec:
         sourceRef:
           kind: DataSource
@@ -30,7 +30,7 @@ spec:
         vm.kubevirt.io/os: fedora
         vm.kubevirt.io/workload: server
       labels:
-        kubevirt.io/domain: fedora-demo-vm2
+        kubevirt.io/domain: fedora-demo-vm3
         kubevirt.io/size: small
     spec:
       architecture: amd64
@@ -48,12 +48,12 @@ spec:
                 bus: virtio
               name: cloudinitdisk
           interfaces:
-            - macAddress: '02:a4:1a:00:00:21'
+            - macAddress: '02:a4:1a:00:00:22'
               masquerade: {}
               model: virtio
               name: default
             - bridge: {}
-              macAddress: '02:a4:1a:00:00:49'
+              macAddress: '02:a4:1a:00:00:50'
               model: virtio
               name: nic-2
           networkInterfaceMultiqueue: true
@@ -79,7 +79,7 @@ spec:
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:
-            name: fedora-demo-vm2
+            name: fedora-demo-vm3
           name: rootdisk
         - cloudInitNoCloud:
             networkData: |
@@ -87,7 +87,7 @@ spec:
                 config:
                   - name: eth1
                     subnets:
-                      - address: 192.168.0.21
+                      - address: 192.168.0.22
                         netmask: 255.255.255.0
                         type: static
                     type: physical

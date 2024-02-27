@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: fedora-demo-vms
+  name: demo-networking
 spec:
   destination:
     server: https://kubernetes.default.svc

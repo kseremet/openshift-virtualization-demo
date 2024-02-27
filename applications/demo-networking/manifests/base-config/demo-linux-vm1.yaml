@@ -52,9 +52,6 @@ spec:
               masquerade: {}
               model: virtio
               name: default
-            - bridge: {}
-              macAddress: '02:a4:1a:00:00:48'
-              name: nic-2
           networkInterfaceMultiqueue: true
           rng: {}
         features:
@@ -72,9 +69,6 @@ spec:
       networks:
         - name: default
           pod: {}
-        - multus:
-            networkName: networking-demo-project1/demo-l2-network
-          name: nic-2
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:

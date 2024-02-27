@@ -52,6 +52,10 @@ spec:
               masquerade: {}
               model: virtio
               name: default
+            - bridge: {}
+              macAddress: '02:a4:1a:00:00:48'
+              model: virtio
+              name: nic-2
           networkInterfaceMultiqueue: true
           rng: {}
         features:
@@ -69,12 +73,25 @@ spec:
       networks:
         - name: default
           pod: {}
+        - multus:
+            networkName: demo-l2-network
+          name: nic-2
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:
             name: fedora-demo-vm1
           name: rootdisk
-        - cloudInitConfigDrive:
+        - cloudInitNoCloud:
+            networkData: |
+              network:
+                config:
+                  - name: eth1
+                    subnets:
+                      - address: 192.168.0.20
+                        netmask: 255.255.255.0
+                        type: static
+                    type: physical
+                version: 1
             userData: |
               #cloud-config
               user: fedora
@@ -82,4 +99,3 @@ spec:
               chpasswd:
                 expire: false
           name: cloudinitdisk
-

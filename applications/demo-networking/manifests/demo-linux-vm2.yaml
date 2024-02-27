@@ -6,7 +6,7 @@ metadata:
   labels:
     app: fedora-demo-vm2
   annotations:
-    argocd.argoproj.io/sync-wave: "95"
+    argocd.argoproj.io/sync-wave: "90"
 spec:
   dataVolumeTemplates:
     - apiVersion: cdi.kubevirt.io/v1beta1
@@ -48,10 +48,14 @@ spec:
                 bus: virtio
               name: cloudinitdisk
           interfaces:
-            - macAddress: '02:a4:1a:00:00:21'
+            - macAddress: '02:a4:1a:00:00:20'
               masquerade: {}
               model: virtio
               name: default
+            - bridge: {}
+              macAddress: '02:a4:1a:00:00:49'
+              model: virtio
+              name: nic-2
           networkInterfaceMultiqueue: true
           rng: {}
         features:
@@ -69,12 +73,25 @@ spec:
       networks:
         - name: default
           pod: {}
+        - multus:
+            networkName: demo-l2-network
+          name: nic-2
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:
             name: fedora-demo-vm2
           name: rootdisk
-        - cloudInitConfigDrive:
+        - cloudInitNoCloud:
+            networkData: |
+              network:
+                config:
+                  - name: eth1
+                    subnets:
+                      - address: 192.168.0.21
+                        netmask: 255.255.255.0
+                        type: static
+                    type: physical
+                version: 1
             userData: |
               #cloud-config
               user: fedora
@@ -82,4 +99,3 @@ spec:
               chpasswd:
                 expire: false
           name: cloudinitdisk
-

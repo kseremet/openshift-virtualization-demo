@@ -1,0 +1,20 @@
+apiVersion: k8s.cni.cncf.io/v1beta1
+kind: MultiNetworkPolicy
+metadata:
+  annotations:
+    k8s.v1.cni.cncf.io/policy-for: demo-l2-network
+  name: allow-from-vm1-to-vm2-port-80
+  namespace: networking-demo-project2
+spec:
+  podSelector:
+    matchLabels:
+      vm.kubevirt.io/name: fedora-demo-vm2
+  ingress:
+    - from:
+      - ipBlock:
+          cidr: 192.168.0.20/32
+      ports:
+        - port: 80
+          protocol: TCP
+  policyTypes:
+    - Ingress

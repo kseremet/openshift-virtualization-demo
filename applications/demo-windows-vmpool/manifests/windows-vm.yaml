@@ -2,6 +2,7 @@ apiVersion: pool.kubevirt.io/v1alpha1
 kind: VirtualMachinePool
 metadata:
   name: vm-pool-windows
+  namespace: demo-windows-vmpool
 spec:
   replicas: 1
   selector:

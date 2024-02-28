@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sysprep-unattend.xml
-  namespace: koray
+  namespace: demo-windows-vmpool
 data:
   Unattend.xml: |
     <?xml version="1.0" encoding="utf-8"?>

@@ -100,7 +100,10 @@ spec:
               type: pc-q35-rhel9.2.0
             memory:
               guest: 8Gi
-            resources: {}
+            resources:
+              requests:
+                memory: 8Gi
+                cpu: 4
           evictionStrategy: LiveMigrate
           networks:
             - name: default

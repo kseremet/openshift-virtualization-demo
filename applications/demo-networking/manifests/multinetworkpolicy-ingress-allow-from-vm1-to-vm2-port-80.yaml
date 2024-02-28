@@ -16,5 +16,7 @@ spec:
       ports:
         - port: 80
           protocol: TCP
+        - port: 443
+          protocol: TCP
   policyTypes:
     - Ingress

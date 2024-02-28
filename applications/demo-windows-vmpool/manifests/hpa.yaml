@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: vm-pool-windows
+  namespace: demo-windows-vmpool
+spec:
+  maxReplicas: 10
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: pool.kubevirt.io/v1alpha1
+    kind: VirtualMachinePool
+    name: vm-pool-windows
+  targetCPUUtilizationPercentage: 30

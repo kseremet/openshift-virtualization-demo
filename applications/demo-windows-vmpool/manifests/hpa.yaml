@@ -11,3 +11,16 @@ spec:
     kind: VirtualMachinePool
     name: vm-pool-windows
   targetCPUUtilizationPercentage: 30
+  behavior:
+  scaleDown: 
+    policies: 
+    - type: Pods 
+      value: 1
+      periodSeconds: 10
+    stabilizationWindowSeconds: 60
+  scaleUp: 
+    policies:
+    - type: Pods
+      value: 2
+      periodSeconds: 10
+    stabilizationWindowSeconds: 60

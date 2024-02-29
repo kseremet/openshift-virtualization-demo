@@ -2,7 +2,7 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: fedora-demo-vm
-  namespace: koray
+  namespace: demo-vm-basics
   labels:
     app: fedora-demo-vm
   annotations:
@@ -22,7 +22,7 @@ spec:
           resources:
             requests:
               storage: 30Gi
-  running: true
+  runStrategy: RerunOnFailure
   template:
     metadata:
       annotations:
@@ -52,9 +52,6 @@ spec:
               masquerade: {}
               model: virtio
               name: default
-            - bridge: {}
-              macAddress: '02:a4:1a:00:00:32'
-              name: nic-hotplug-demo
           networkInterfaceMultiqueue: true
           rng: {}
         features:
@@ -72,9 +69,6 @@ spec:
       networks:
         - name: default
           pod: {}
-        - multus:
-            networkName: koray/demo-l2-network
-          name: nic-hotplug-demo
       terminationGracePeriodSeconds: 180
       volumes:
         - dataVolume:

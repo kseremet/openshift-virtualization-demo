@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: "VM Basics Demo Project"
+    openshift.io/display-name: VM Basics Demo Project
+    argocd.argoproj.io/sync-wave: "1"
+  name: demo-vm-basics

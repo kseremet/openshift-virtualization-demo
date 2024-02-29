@@ -13,7 +13,6 @@ spec:
   virtualMachineTemplate:
     metadata:
       name: windows-demo-vm
-      namespace: koray
       labels:
         app: windows-demo-vm
         kubevirt.io/vmpool: vmpool-windows

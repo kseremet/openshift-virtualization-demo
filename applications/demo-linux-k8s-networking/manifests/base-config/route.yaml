@@ -1,0 +1,19 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "30"
+    haproxy.router.openshift.io/disable_cookies: 'true'
+  name: route-vmpool-linux
+  namespace: demo-linux-k8s-networking
+spec:
+  host: vmpool-linux.apps.openshift.demoes.live
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: svc-vmpool-linux
+    weight: 100
+  wildcardPolicy: None

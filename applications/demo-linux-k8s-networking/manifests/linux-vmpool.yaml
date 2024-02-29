@@ -14,7 +14,7 @@ spec:
     metadata:
       name: linux-demo-vm
       labels:
-        app: fedora-demo-vm2
+        app: demo-linux-k8s-networking
         kubevirt.io/vmpool: vmpool-linux
         app.kubernetes.io/part-of: vmpool-linux
     spec:
@@ -42,6 +42,9 @@ spec:
           labels:
             kubevirt.io/domain: linux-demo-vm
             kubevirt.io/size: small
+            kubevirt.io/vmpool: vmpool-linux
+            app.kubernetes.io/part-of: vmpool-linux
+            app: demo-linux-k8s-networking
         spec:
           architecture: amd64
           domain:

@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "30"
+  name: route-vmpool-windows
+  namespace: demo-windows-k8s-networking
+spec:
+  host: vmpool-windows.apps.openshift.demoes.live
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: svc-vmpool-windows
+    weight: 100
+  wildcardPolicy: None

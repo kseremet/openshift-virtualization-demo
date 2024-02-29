@@ -2,7 +2,9 @@ apiVersion: pool.kubevirt.io/v1alpha1
 kind: VirtualMachinePool
 metadata:
   name: vmpool-windows
-  namespace: demo-windows-vmpool
+  namespace: demo-windows-k8s-networking
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   replicas: 2
   selector:

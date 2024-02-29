@@ -3,6 +3,7 @@ kind: Route
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "30"
+    haproxy.router.openshift.io/disable_cookies: 'true'
   name: route-vmpool-windows
   namespace: demo-windows-k8s-networking
 spec:

@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: vm-pool-windows
+  name: hpa-vm-pool-windows
   namespace: demo-windows-vmpool
 spec:
   maxReplicas: 10

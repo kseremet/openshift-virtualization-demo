@@ -12,6 +12,13 @@ spec:
     path: applications/demo-windows-vmpool/manifests
     targetRevision: HEAD
   syncPolicy:
+    syncOptions:
+    - RespectIgnoreDifferences=true
     automated:
       prune: true
       selfHeal: false
+  ignoreDifferences:
+  - group: "pool.kubevirt.io"
+    kind: "VirtualMachinePool"
+    jsonPointers:
+    - /spec/replicas

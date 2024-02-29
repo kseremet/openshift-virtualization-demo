@@ -14,7 +14,7 @@ spec:
     metadata:
       name: linux-demo-vm
       labels:
-        app: demo-linux-k8s-networking
+        app: fedora-demo-vm2
         kubevirt.io/vmpool: vmpool-linux
         app.kubernetes.io/part-of: vmpool-linux
     spec:
@@ -42,10 +42,21 @@ spec:
           labels:
             kubevirt.io/domain: linux-demo-vm
             kubevirt.io/size: small
-            kubevirt.io/vmpool: vmpool-linux
-            app.kubernetes.io/part-of: vmpool-linux
-            app: demo-linux-k8s-networking
         spec:
+          livenessProbe:
+            initialDelaySeconds: 120
+            periodSeconds: 5
+            httpGet:
+              port: 80
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              port: 80
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 3
           architecture: amd64
           domain:
             cpu:

@@ -1,0 +1,127 @@
+apiVersion: pool.kubevirt.io/v1alpha1
+kind: VirtualMachinePool
+metadata:
+  name: vmpool-linux
+  namespace: demo-linux-k8s-networking
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      kubevirt.io/vmpool: vmpool-linux
+  virtualMachineTemplate:
+    metadata:
+      name: linux-demo-vm
+      labels:
+        app: fedora-demo-vm2
+        kubevirt.io/vmpool: vmpool-linux
+        app.kubernetes.io/part-of: vmpool-linux
+    spec:
+      dataVolumeTemplates:
+        - apiVersion: cdi.kubevirt.io/v1beta1
+          kind: DataVolume
+          metadata:
+            name: linux-demo-vm
+          spec:
+            sourceRef:
+              kind: DataSource
+              name: fedora
+              namespace: openshift-virtualization-os-images
+            storage:
+              resources:
+                requests:
+                  storage: 30Gi
+      runStrategy: RerunOnFailure
+      template:
+        metadata:
+          annotations:
+            vm.kubevirt.io/flavor: small
+            vm.kubevirt.io/os: fedora
+            vm.kubevirt.io/workload: server
+          labels:
+            kubevirt.io/domain: linux-demo-vm
+            kubevirt.io/size: small
+        spec:
+          livenessProbe:
+            initialDelaySeconds: 120
+            periodSeconds: 5
+            httpGet:
+              port: 80
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              port: 80
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 3
+          architecture: amd64
+          domain:
+            cpu:
+              cores: 1
+              sockets: 1
+              threads: 1
+            devices:
+              disks:
+                - disk:
+                    bus: virtio
+                  name: rootdisk
+                - disk:
+                    bus: virtio
+                  name: cloudinitdisk
+                - disk: {}
+                  name: nginx-conf-disk
+                  serial: 06DEMO
+              interfaces:
+                - masquerade: {}
+                  model: virtio
+                  name: default
+              networkInterfaceMultiqueue: true
+              rng: {}
+            features:
+              acpi: {}
+              smm:
+                enabled: true
+            firmware:
+              bootloader:
+                efi: {}
+            machine:
+              type: pc-q35-rhel9.2.0
+            memory:
+              guest: 2Gi
+            resources:
+              requests:
+                memory: 2Gi
+                cpu: 1
+          networks:
+            - name: default
+              pod: {}
+          terminationGracePeriodSeconds: 180
+          volumes:
+            - dataVolume:
+                name: linux-demo-vm
+              name: rootdisk
+            - configMap:
+                name: nginx-conf
+              name: nginx-conf-disk
+            - cloudInitNoCloud:
+                userData: |
+                  #cloud-config
+                  user: fedora
+                  password: fedora
+                  chpasswd:
+                    expire: false
+                  bootcmd:
+                    # mount the ConfigMap
+                    - "mkdir /mnt/app-config"
+                    - "mount /dev/$(lsblk --nodeps -no name,serial | grep 06DEMO | cut -f1 -d' ') /mnt/app-config"
+                  packages:
+                    - nginx
+                  runcmd:
+                    - rm -f /etc/nginx/conf.d/*
+                    - cp /mnt/app-config/hello.conf /etc/nginx/conf.d/
+                    - cp /mnt/app-config/index.html /usr/share/nginx/html/
+                    - systemctl enable --now nginx
+              name: cloudinitdisk

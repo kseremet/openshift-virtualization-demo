@@ -1,0 +1,15 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-vmpool-windows
+  namespace: demo-windows-k8s-networking
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+spec:
+  maxReplicas: 10
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: pool.kubevirt.io/v1alpha1
+    kind: VirtualMachinePool
+    name: vmpool-windows
+  targetCPUUtilizationPercentage: 25

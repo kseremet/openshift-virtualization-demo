@@ -5,11 +5,11 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: koray
+    namespace: networking-demo-project1
   project: default
   source:
     repoURL: https://gitea.apps.openshift.demoes.live/demo-user/gitops-demo.git
-    path: applications/demo-networking/manifests
+    path: applications/02-demo-networking/manifests
     targetRevision: HEAD
   syncPolicy:
     automated:

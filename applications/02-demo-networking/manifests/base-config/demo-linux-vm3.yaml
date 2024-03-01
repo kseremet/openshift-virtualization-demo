@@ -1,0 +1,105 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: fedora-demo-vm3
+  namespace: networking-demo-project2
+  labels:
+    app: fedora-demo-vm3
+  annotations:
+    argocd.argoproj.io/sync-wave: "90"
+spec:
+  dataVolumeTemplates:
+    - apiVersion: cdi.kubevirt.io/v1beta1
+      kind: DataVolume
+      metadata:
+        name: fedora-demo-vm3
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: fedora
+          namespace: openshift-virtualization-os-images
+        storage:
+          resources:
+            requests:
+              storage: 30Gi
+  running: true
+  template:
+    metadata:
+      annotations:
+        vm.kubevirt.io/flavor: small
+        vm.kubevirt.io/os: fedora
+        vm.kubevirt.io/workload: server
+      labels:
+        kubevirt.io/domain: fedora-demo-vm3
+        kubevirt.io/size: small
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+            - disk:
+                bus: virtio
+              name: rootdisk
+            - disk:
+                bus: virtio
+              name: cloudinitdisk
+          interfaces:
+            - macAddress: '02:a4:1a:00:00:22'
+              masquerade: {}
+              model: virtio
+              name: default
+            - bridge: {}
+              macAddress: '02:a4:1a:00:00:50'
+              model: virtio
+              name: nic-2
+          networkInterfaceMultiqueue: true
+          rng: {}
+        features:
+          acpi: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
+        machine:
+          type: pc-q35-rhel9.2.0
+        memory:
+          guest: 2Gi
+        resources: {}
+      networks:
+        - name: default
+          pod: {}
+        - multus:
+            networkName: demo-l2-network
+          name: nic-2
+      terminationGracePeriodSeconds: 180
+      volumes:
+        - dataVolume:
+            name: fedora-demo-vm3
+          name: rootdisk
+        - cloudInitNoCloud:
+            networkData: |
+              network:
+                config:
+                  - name: eth1
+                    subnets:
+                      - address: 192.168.0.22
+                        netmask: 255.255.255.0
+                        type: static
+                    type: physical
+                version: 1
+            userData: |
+              #cloud-config
+              user: fedora
+              password: fedora
+              chpasswd:
+                expire: false
+              packages:
+                - nginx
+              runcmd:
+                - systemctl enable --now nginx
+          name: cloudinitdisk

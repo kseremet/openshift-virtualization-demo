@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-provisioning
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-vm-provisioning
+  project: default
+  source:
+    repoURL: https://gitea.apps.openshift.demoes.live/demo-user/gitops-demo.git
+    path: applications/01-demo-provisioning/manifests
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false

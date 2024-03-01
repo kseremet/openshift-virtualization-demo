@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sysprep-unattend.xml
+  namespace: demo-vm-provisioning
+data:
+  Unattend.xml: |
+    <?xml version="1.0" encoding="utf-8"?>
+    <unattend xmlns="urn:schemas-microsoft-com:unattend">
+        <settings pass="oobeSystem">
+            <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <InputLocale><![CDATA[en_US]]></InputLocale>
+                <SystemLocale><![CDATA[en_US]]></SystemLocale>
+                <UILanguage><![CDATA[en_US]]></UILanguage>
+                <UILanguageFallback>en-US</UILanguageFallback>
+                <UserLocale><![CDATA[en_US]]></UserLocale>
+            </component>
+            <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <OOBE>
+                    <HideEULAPage>true</HideEULAPage>
+                    <SkipUserOOBE>true</SkipUserOOBE>
+                </OOBE>
+                <UserAccounts>
+                    <AdministratorPassword>
+                        <Value><![CDATA[qazxsw56=]]></Value>
+                        <PlainText>true</PlainText>
+                    </AdministratorPassword>
+                </UserAccounts>
+                <RegisteredOwner>User</RegisteredOwner>
+                <TimeZone><![CDATA[GMT Standard Time]]></TimeZone>
+            </component>
+        </settings>
+        <settings pass="windowsPE">
+            <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <SetupUILanguage>
+                    <UILanguage><![CDATA[en_US]]></UILanguage>
+                </SetupUILanguage>
+                <InputLocale><![CDATA[en_US]]></InputLocale>
+                <UILanguage><![CDATA[en_US]]></UILanguage>
+                <SystemLocale><![CDATA[en_US]]></SystemLocale>
+                <UILanguageFallback>en-US</UILanguageFallback>
+                <UserLocale><![CDATA[en_US]]></UserLocale>
+            </component>
+            <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <UserData>
+                    <AcceptEula>true</AcceptEula>
+                    <Organization><![CDATA[lp.int]]></Organization>
+                    <FullName>User</FullName>
+                </UserData>
+            </component>
+        </settings>
+        <cpi:offlineImage cpi:source="catalog://catalogs/windows2012-x86/sources/install_windows longhorn serverenterprise.clg" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+    </unattend>
+immutable: false

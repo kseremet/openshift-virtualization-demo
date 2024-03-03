@@ -1,0 +1,102 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: mongodb
+  namespace: demo-parksmap
+  labels:
+    app: mongodb
+  annotations:
+    argocd.argoproj.io/sync-wave: "99"
+spec:
+  dataVolumeTemplates:
+    - apiVersion: cdi.kubevirt.io/v1beta1
+      kind: DataVolume
+      metadata:
+        name: mongodb
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: fedora
+          namespace: openshift-virtualization-os-images
+        storage:
+          resources:
+            requests:
+              storage: 30Gi
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      annotations:
+        vm.kubevirt.io/flavor: small
+        vm.kubevirt.io/os: fedora
+        vm.kubevirt.io/workload: server
+      labels:
+        kubevirt.io/domain: mongodb
+        kubevirt.io/size: small
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+            - disk:
+                bus: virtio
+              name: rootdisk
+            - disk:
+                bus: virtio
+              name: cloudinitdisk
+          interfaces:
+            - macAddress: '02:a4:1a:10:80:19'
+              masquerade: {}
+              model: virtio
+              name: default
+          networkInterfaceMultiqueue: true
+          rng: {}
+        features:
+          acpi: {}
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi: {}
+        machine:
+          type: pc-q35-rhel9.2.0
+        memory:
+          guest: 2Gi
+        resources: {}
+      networks:
+        - name: default
+          pod: {}
+      terminationGracePeriodSeconds: 180
+      volumes:
+        - dataVolume:
+            name: mongodb
+          name: rootdisk
+        - cloudInitConfigDrive:
+            userData: |
+              #cloud-config
+              user: fedora
+              password: fedora
+              chpasswd:
+                expire: false
+              runcmd:
+                - curl "https://raw.githubusercontent.com/erkerc/utils/main/repos/mongodb-org-3.6.repo" --output /etc/yum.repos.d/mongodb-org-3.6.repo
+                - yum install -y bash-completion mongodb-org
+                - systemctl daemon-reload
+                - systemctl enable mongod.service
+                - systemctl start mongod.service
+                - >
+                  mongo admin --host localhost --eval "db.createUser({user: 'root', pwd: 'mongodb', roles: [{role: 'root', db: 'admin'}]});"
+                - >
+                  mongo admin --host localhost --eval "db.getSiblingDB('mongodb').createUser({user: 'mongodb', pwd: 'mongodb', roles: [{role: 'dbOwner', db: 'mongodb'}]});"
+                - >
+                  sed -i -e 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/g' /etc/mongod.conf
+                - >
+                  sed -i -e 's/^#security:/security:/g' /etc/mongod.conf
+                - >
+                  sed -i -e '/^security:/a \  authorization: enabled' /etc/mongod.conf
+                - systemctl restart mongod.service
+          name: cloudinitdisk
+

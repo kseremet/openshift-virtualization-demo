@@ -9,6 +9,7 @@ metadata:
     component: mongodb
     role: database
   name: mongodb
+  namespace: demo-parksmap
 spec:
   ports:
     - name: mongo

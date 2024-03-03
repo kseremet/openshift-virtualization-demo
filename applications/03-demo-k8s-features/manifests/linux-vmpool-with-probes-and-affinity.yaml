@@ -57,13 +57,15 @@ spec:
                           - high
             podAntiAffinity: #This rule ensures that two VMs with the key app.kubernetes.io/part-of equals to vmpool-linux cannot run on the same zone
               preferredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/part-of
-                        operator: In
-                        values:
-                          - vmpool-linux
-                  topologyKey: topology.kubernetes.io/zone
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app.kubernetes.io/part-of
+                          operator: In
+                          values:
+                            - vmpool-linux
+                    topologyKey: topology.kubernetes.io/zone
           livenessProbe:
             initialDelaySeconds: 60
             periodSeconds: 5

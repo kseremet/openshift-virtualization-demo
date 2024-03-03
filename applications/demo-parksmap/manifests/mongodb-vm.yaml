@@ -6,7 +6,7 @@ metadata:
   labels:
     app: mongodb
   annotations:
-    argocd.argoproj.io/sync-wave: "99"
+    argocd.argoproj.io/sync-wave: "50"
 spec:
   dataVolumeTemplates:
     - apiVersion: cdi.kubevirt.io/v1beta1
@@ -16,18 +16,18 @@ spec:
       spec:
         sourceRef:
           kind: DataSource
-          name: centos-stream9
+          name: centos-stream8
           namespace: openshift-virtualization-os-images
         storage:
           resources:
             requests:
               storage: 30Gi
-  runStrategy: RerunOnFailure
+  running: true
   template:
     metadata:
       annotations:
         vm.kubevirt.io/flavor: small
-        vm.kubevirt.io/os: centos-stream9
+        vm.kubevirt.io/os: centos-stream8
         vm.kubevirt.io/workload: server
       labels:
         kubevirt.io/domain: mongodb
@@ -48,19 +48,12 @@ spec:
                 bus: virtio
               name: cloudinitdisk
           interfaces:
-            - macAddress: '02:a4:1a:10:80:19'
+            - macAddress: '02:a4:1a:00:00:f9'
               masquerade: {}
               model: virtio
               name: default
           networkInterfaceMultiqueue: true
           rng: {}
-        features:
-          acpi: {}
-          smm:
-            enabled: true
-        firmware:
-          bootloader:
-            efi: {}
         machine:
           type: pc-q35-rhel9.2.0
         memory:
@@ -75,7 +68,7 @@ spec:
             name: mongodb
           name: rootdisk
         - cloudInitConfigDrive:
-            userData: |
+            userData: |-
               #cloud-config
               user: centos
               password: centos

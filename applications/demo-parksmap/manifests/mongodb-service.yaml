@@ -3,6 +3,7 @@ kind: Service
 metadata:
   annotations:
     template.openshift.io/expose-uri: 'mongodb://{.spec.clusterIP}:{.spec.ports[?(.name=="mongo")].port}'
+    argocd.argoproj.io/sync-wave: "10"
   labels:
     app: parksmap
     component: mongodb

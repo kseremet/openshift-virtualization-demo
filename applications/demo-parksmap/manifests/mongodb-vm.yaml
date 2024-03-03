@@ -16,7 +16,7 @@ spec:
       spec:
         sourceRef:
           kind: DataSource
-          name: fedora
+          name: centos-stream8
           namespace: openshift-virtualization-os-images
         storage:
           resources:
@@ -27,7 +27,7 @@ spec:
     metadata:
       annotations:
         vm.kubevirt.io/flavor: small
-        vm.kubevirt.io/os: fedora
+        vm.kubevirt.io/os: centos-stream8
         vm.kubevirt.io/workload: server
       labels:
         kubevirt.io/domain: mongodb
@@ -77,8 +77,8 @@ spec:
         - cloudInitConfigDrive:
             userData: |
               #cloud-config
-              user: fedora
-              password: fedora
+              user: centos
+              password: centos
               chpasswd:
                 expire: false
               runcmd:

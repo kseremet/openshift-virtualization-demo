@@ -42,6 +42,8 @@ spec:
             kubevirt.io/size: medium
             kubevirt.io/vmpool: vmpool-windows
         spec:
+          nodeSelector:
+            part-of: windows-cluster
           architecture: amd64
           domain:
             clock:

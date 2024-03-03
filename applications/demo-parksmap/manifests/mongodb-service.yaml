@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    template.openshift.io/expose-uri: 'mongodb://{.spec.clusterIP}:{.spec.ports[?(.name=="mongo")].port}'
+  labels:
+    app: parksmap
+    component: mongodb
+    role: database
+  name: mongodb
+spec:
+  ports:
+    - name: mongo
+      nodePort: 0
+      port: 27017
+      protocol: TCP
+      targetPort: 27017
+  selector:
+    vm.kubevirt.io/name: mongodb
+  sessionAffinity: None
+  type: ClusterIP

@@ -16,7 +16,7 @@ spec:
       spec:
         sourceRef:
           kind: DataSource
-          name: centos-stream8
+          name: centos-stream9
           namespace: openshift-virtualization-os-images
         storage:
           resources:
@@ -27,7 +27,7 @@ spec:
     metadata:
       annotations:
         vm.kubevirt.io/flavor: small
-        vm.kubevirt.io/os: centos-stream8
+        vm.kubevirt.io/os: centos-stream9
         vm.kubevirt.io/workload: server
       labels:
         kubevirt.io/domain: mongodb

@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-k8s-features
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-k8s-features
+  project: default
+  source:
+    repoURL: https://gitea.apps.openshift.demoes.live/demo-user/gitops-demo.git
+    path: applications/03-demo-k8s-features/manifests
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+    - RespectIgnoreDifferences=true
+    automated:
+      prune: true
+      selfHeal: false
+  ignoreDifferences:
+  - group: "pool.kubevirt.io"
+    kind: "VirtualMachinePool"
+    jsonPointers:
+    - /spec/replicas

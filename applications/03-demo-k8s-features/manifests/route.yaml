@@ -7,7 +7,6 @@ metadata:
   name: route-vmpool-linux
   namespace: demo-k8s-features
 spec:
-  host: vmpool-linux.apps.openshift.demoes.live
   port:
     targetPort: 80
   tls:

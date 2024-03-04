@@ -19,7 +19,6 @@ spec:
           resources:
             requests:
               storage: 32Gi
-          storageClassName: ocs-storagecluster-ceph-rbd-replica2
   runStrategy: RerunOnFailure
   template:
     metadata:

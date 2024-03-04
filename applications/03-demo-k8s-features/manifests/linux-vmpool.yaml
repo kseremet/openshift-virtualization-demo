@@ -46,40 +46,6 @@ spec:
             app.kubernetes.io/part-of: vmpool-linux
             app: demo-k8s-features
         spec:
-          affinity:
-            nodeAffinity: #This rule ensures the VMs must ONLY be placed on nodes where the key performance contains the value high
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: performance
-                        operator: In
-                        values:
-                          - high
-            podAntiAffinity: #This rule ensures that two VMs with the key app.kubernetes.io/part-of equals to vmpool-linux cannot run on the same zone
-              preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 100
-                  podAffinityTerm:
-                    labelSelector:
-                      matchExpressions:
-                        - key: app.kubernetes.io/part-of
-                          operator: In
-                          values:
-                            - vmpool-linux
-                    topologyKey: topology.kubernetes.io/zone
-          livenessProbe:
-            initialDelaySeconds: 60
-            periodSeconds: 5
-            httpGet:
-              port: 80
-            timeoutSeconds: 3
-          readinessProbe:
-            httpGet:
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 3
-            failureThreshold: 60
-            successThreshold: 1
           architecture: amd64
           domain:
             cpu:

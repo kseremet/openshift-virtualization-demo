@@ -1,0 +1,12 @@
+apiVersion: k8s.cni.cncf.io/v1beta1
+kind: MultiNetworkPolicy
+metadata:
+  annotations:
+    k8s.v1.cni.cncf.io/policy-for: demo-l2-network
+  name: deny-all
+  namespace: networking-demo-project2
+spec:
+  podSelector: {}
+  ingress: []
+  policyTypes:
+    - Ingress

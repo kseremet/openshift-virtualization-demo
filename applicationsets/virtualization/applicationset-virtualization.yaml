@@ -16,11 +16,12 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/0xFelix/gitops-demo.git
+        repoURL: https://gitea.apps.openshift.demoes.live/demo-user/gitops-demo.git
         targetRevision: HEAD
         path: applicationsets/virtualization/manifests
       destination:
-        server: "{{server}}"
+        #server: "{{server}}"
+        server: https://kubernetes.default.svc
         namespace: openshift-cnv
       syncPolicy:
         syncOptions:

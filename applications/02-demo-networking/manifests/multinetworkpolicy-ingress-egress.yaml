@@ -13,6 +13,8 @@ spec:
     - from:
       - ipBlock:
           cidr: 192.168.0.20/32
+      - ipBlock:
+          cidr: 192.168.0.22/32
       ports:
         - port: 80
           protocol: TCP
